@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article Viewer</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+  <style>
+    .logo {
+      position: absolute;
+      top: -60px; /* Moves the logo slightly above the top edge */
+      right: 5px; /* Aligns it to the right */
+      width: 150px; /* Makes the logo larger */
+      height: auto; /* Maintains aspect ratio */
+    }
+  </style>
+
+</head>
+<body class="bg-gray-100 text-gray-800 relative">
+    <img src="MindMap_LOGO_WORD_Initials.svg" alt="MindMap Logo" class="logo">
+
+
+  <div class="container mx-auto p-6">
+    <!-- Back Button -->
+    <!-- <button onclick="window.history.back()" class="text-blue-600 hover:underline mb-4">
+      ← Back to Articles
+    </button> -->
+
+    <!-- Article Content -->
+    <div id="article-content" class="bg-white p-6 rounded-lg shadow"></div>
+  </div>
+
+  <!-- Link to your JavaScript file -->
+  <script src="script.js"></script>
+  <script>
+    // Load and format the article dynamically
+    window.onload = () => {
+      const articleId = new URLSearchParams(window.location.search).get("id");
+      const articleContent = localStorage.getItem(`article_${articleId}`);
+
+      if (articleContent) {
+        formatArticle(articleContent); // Call the formatArticle function
+      } else {
+        document.getElementById("article-content").innerHTML = `
+          <p class="text-red-500">Article not found. Please go back and try again.</p>
+        `;
+      }
+    };
+  </script>
+</body>
+</html>

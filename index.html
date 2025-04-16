@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindMap</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <!-- vis-network -->
+  <link href="https://unpkg.com/vis-network/styles/vis-network.css" rel="stylesheet" />
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+
+<body class="bg-gradient-to-br from-purple-400 to-blue-500 min-h-screen text-white font-sans">
+
+  <!-- Top bar with Google Sign-in -->
+<!-- Top bar -->
+<div class="flex justify-end items-center p-4 gap-4">
+  <!-- 👤 User Info (hidden by default) -->
+  <div id="user-info" class="hidden flex items-center gap-2 bg-white text-black px-3 py-1 rounded-lg shadow">
+    <img id="user-pic" class="w-8 h-8 rounded-full" />
+    <span id="user-email" class="text-sm font-medium"></span>
+    <button onclick="logout()" class="ml-2 text-xs text-red-500 underline">Sign out</button>
+  </div>
+
+  <!-- 🔐 Sign In Button -->
+  <button id="sign-in-btn" onclick="signInWithGoogle()" class="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-lg shadow hover:scale-105 transition">
+    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" class="w-5 h-5" />
+    Sign in with Google
+  </button>
+</div>
+
+
+<!-- ✨ Subject Selection Screen -->
+<div id="subject-screen" class="flex flex-col items-center mb-10 px-4">
+  <h1 class="text-4xl font-extrabold mb-4 animate-bounce">Choose Your Interests</h1>
+
+  <!-- 🔍 Always-visible search bar -->
+  <div class="flex flex-col items-center gap-4 w-full max-w-xl mb-8">
+    <input
+      type="text"
+      id="topicInput"
+      placeholder="Search any topic (e.g. Linear Algebra)"
+      class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 text-black outline-none"
+    />
+    <button
+      onclick="getRelatedTopics()"
+      class="bg-purple-600 text-white font-semibold px-6 py-2 rounded-full shadow hover:scale-105 transition"
+    >
+      Explore Connections
+    </button>
+  </div>
+
+  <!-- 🎨 Subject cards -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 w-full max-w-5xl">
+    <div onclick="selectSubject('science')" class="subject-card bg-white text-purple-700 font-bold text-center py-6 px-4 rounded-2xl shadow-md cursor-pointer hover:scale-105 transition duration-300">
+      Science
+    </div>
+    <div onclick="selectSubject('arts')" class="subject-card bg-white text-pink-600 font-bold text-center py-6 px-4 rounded-2xl shadow-md cursor-pointer hover:scale-105 transition duration-300">
+      Arts
+    </div>
+    <div onclick="selectSubject('law')" class="subject-card bg-white text-green-600 font-bold text-center py-6 px-4 rounded-2xl shadow-md cursor-pointer hover:scale-105 transition duration-300">
+      Law
+    </div>
+    <div onclick="selectSubject('commerce')" class="subject-card bg-white text-yellow-600 font-bold text-center py-6 px-4 rounded-2xl shadow-md cursor-pointer hover:scale-105 transition duration-300">
+      Commerce
+    </div>
+    <div onclick="selectSubject('math')" class="subject-card bg-white text-blue-600 font-bold text-center py-6 px-4 rounded-2xl shadow-md cursor-pointer hover:scale-105 transition duration-300">
+      Math
+    </div>
+
+  </div>
+  <!-- Logo -->
+  <div class="logo-container text-center mt-6">
+  <img src="MindMap_LOGO_WORD.svg" alt="MindMap Logo" class="w-40 mx-auto">
+  </div>
+</div>
+
+
+<!-- ✨ Subtopic Selection Screen -->
+<div id="subtopic-screen" class="hidden flex flex-col items-center px-6">
+  <button onclick="goBackToSubjects()" class="self-start text-sm text-white mb-4 hover:underline">← Back</button>
+
+  <!-- Title -->
+  <h2 id="subtopic-title" class="text-3xl font-bold mb-4 text-center text-white"></h2>
+
+  <!-- Subtopic buttons -->
+  <div id="subtopic-list" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl w-full"></div>
+
+  <!-- Continue button -->
+  <button onclick="submitSubtopics()" class="mt-8 bg-pink-500 hover:bg-pink-600 text-white font-semibold px-6 py-2 rounded-full transition">
+    Continue →
+  </button>
+  <div class="logo-container text-center mb-6">
+    <img src="MindMap_LOGO_WORD.svg" alt="MindMap Logo" class="w-40 mx-auto">
+  </div>
+
+
+</div>
+
+
+
+<!-- ✨ Main App Content -->
+<div id="main-app" class="hidden bg-white text-black p-8 rounded-t-3xl shadow-2xl">
+  <!-- 🔙 Back Button -->
+  <button onclick="goBackToSubtopics()" class="text-sm text-blue-600 hover:underline mb-4">
+    ← Back to Subtopic Selection
+  </button>
+  <div class="new-logo-container text-center mt-6">
+    <img src="MindMap_LOGO.svg" alt="MindMap Logo" class="w-60 mx-auto -mt-6">
+  </div>
+  
+
+  <div class="text-center mb-6">
+    <h1 class="text-3xl font-bold">MindMap</h1>
+    <p class="text-lg text-gray-600">Explore how topics connect across disciplines 🌐</p>
+  </div>
+
+  <div class="flex flex-col items-center gap-4 max-w-xl mx-auto">
+    <input type="text" id="topicInput" placeholder="Enter a topic (e.g. Linear Algebra)"
+      class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none" />
+    <button onclick="getRelatedTopics()"
+      class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-2 rounded-full transition">
+      Explore Connections
+    </button>
+    
+    
+  
+  </div>
+  <div id="knowledge-plans" class="mt-6"></div>
+  <div id="recommended-topics" class="mt-10"></div>
+
+
+
+  <div id="results" class="mt-6 space-y-2 text-center"></div>
+  <div id="graph" style="height: 500px; width: 100%; margin-top: 2rem;"></div>
+  <div id="loading-bar" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden">
+    <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
+  </div>
+</div>
+
+
+
+  
+
+  <!-- Your main script -->
+  <script src="script.js"></script>
+</body>
+</html>

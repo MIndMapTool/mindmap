@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg2"
+   width="816"
+   height="1056"
+   viewBox="0 0 816 1056"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs6" />
+  <g
+     id="g8"
+     transform="matrix(1.3333333,0,0,-1.3333333,0,1056)">
+    <text
+       xml:space="preserve"
+       transform="matrix(1,0,0,-1,213,329.9805)"
+       style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:114px;font-family:GreekC;-inkscape-font-specification:GreekC;writing-mode:lr-tb;fill:#110f0d;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="text12"><tspan
+         x="0 81.624001"
+         y="0"
+         id="tspan10">DP</tspan></text>
+    <g
+       id="g14"
+       transform="translate(254.4141,415.4805)">
+      <path
+         d="m 0,0 h -1.225 l -32.674,-85.5 h 66.574 z m -29.669,-79.711 27.108,71.25 27.053,-71.25 z"
+         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+         id="path16" />
+    </g>
+    <g
+       id="g18"
+       transform="translate(387.3398,331.8145)">
+      <path
+         d="M 0,0 H -11.077 V 81.832 H 0 v 1.834 h -83.83 v -1.834 h 11.021 V 0 H -83.83 v -1.834 h 27.943 V 0.003 H -66.964 V 81.94 h 50.042 V 0.003 h -11.077 v -1.837 l 27.999,0 z"
+         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+         id="path20" />
+    </g>
+  </g>
+</svg>

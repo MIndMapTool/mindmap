@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; }
+    </style>
+</head>
+<body>
+    <h1 id="article-title"></h1>
+    <p id="article-content"></p>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleIndex = urlParams.get("id");
+        const articleContent = localStorage.getItem(`article_${articleIndex}`);
+    
+        if (articleContent) {
+            document.getElementById("article-title").textContent = `Generated Article ${articleIndex}`;
+            document.getElementById("article-content").textContent = articleContent;
+        } else {
+            document.getElementById("article-title").textContent = "Article Not Found";
+        }
+    </script>
+</body>
+</html>
