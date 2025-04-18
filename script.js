@@ -7,7 +7,7 @@ const client = supabase.createClient(supabaseUrl, supabaseKey);
 // This function will be called after fetching articles from the server
 function showArticles(articles) {
   const container = document.getElementById("recommended-topics");
-  container.innerHTML = "<h3 class='text-2xl font-bold mb-4'>Generated Articles</h3>";
+  container.innerHTML = "<h3 class='text-2xl font-bold mb-4'>Your Articles</h3>";
 
   if (!articles || Object.keys(articles).length === 0) {
       container.innerHTML += "<p class='text-gray-500'>No articles available.</p>";
@@ -449,4 +449,27 @@ function showRecommendedTopics(recommendations) {
 
   container.appendChild(grid);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const refreshBtn = document.getElementById("refresh-btn");
+  if (!refreshBtn) return;
+
+  refreshBtn.onclick = async () => {
+    const { data: { user } } = await client.auth.getUser();
+    if (!user?.id) {
+      alert("Please sign in first.");
+      return;
+    }
+
+    // 🧹 Clear old article data
+    Object.keys(localStorage).forEach((key) => {
+      if (key.startsWith("article_") || key.startsWith("article_interests_")) {
+        localStorage.removeItem(key);
+      }
+    });
+
+    // 🔁 Fetch new articles from backend
+    await fetchGeneratedArticles(user.id);
+  };
+});
 
