@@ -1,7 +1,6 @@
 // Initialize Supabase client
-const supabaseUrl = 'https://arnvjwxafssjqewtgoaf.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFybnZqd3hhZnNzanFld3Rnb2FmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NDE5NDU1MywiZXhwIjoyMDU5NzcwNTUzfQ.5miLC8aFSxAp3qT7wm1mieWuDgTuocSalWC1AGX0hmQ'; // ⚠️ Hide this in production
-const client = supabase.createClient(supabaseUrl, supabaseKey);
+import { client } from './supabaseclient.js';
+
 
 // Shows Articles on the page
 // This function will be called after fetching articles from the server
