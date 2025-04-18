@@ -50,12 +50,14 @@ git clone https://github.com/smupamanyu/MindMap.git
 cd MindMap
 pip install -r requirements.txt
 
-Create a .env file and add:
+Create a .env and a config.js file and add:
 SUPABASE_URL=your_supabase_url
 SUPABASE_KEY=your_supabase_api_key
 GEMINI_API_KEY=your_gemini_api_key
 
 python app.py
+
+Do not forget to add .env and config.js to .gitignore!
 ```
 👥 Contributors
 🤖 Built by @smupamanyu and @anikasingh31
