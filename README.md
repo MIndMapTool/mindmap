@@ -38,7 +38,7 @@
    - `learned_interests`
    - `recommended_interests`
 4. On article click:
-   - If topic is from recommended, it’s added to `learned_interests`
+   - If topic is from recommended, it’s added to `learned_interests` (work in progress)
 5. Cycle repeats, adapting based on user interaction
 
 ---
