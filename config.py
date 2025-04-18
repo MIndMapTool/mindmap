@@ -116,25 +116,42 @@ def generate_articles(user_id):
     for i in range(1, 3):
         selected = [random.choice(current)] if current else ["Education"]
         prompt = generate_article_prompt(selected)
-        articles[f"article_current_{i}"] = model.generate_content(prompt).text.strip()
+        content = model.generate_content(prompt).text.strip()
 
-    # 2 articles with current + learned (fallback to current)
+        articles[f"article_current_{i}"] = {
+            "content": content,
+            "interests": selected
+        }
+
+    # 2 articles with current + learned
     for i in range(1, 3):
         if learned:
             selected = [random.choice(current), random.choice(learned)]
         else:
             selected = [random.choice(current)]
         prompt = generate_article_prompt(selected)
-        articles[f"article_current_learned_{i}"] = model.generate_content(prompt).text.strip()
+        content = model.generate_content(prompt).text.strip()
 
-    # 2 articles with current + learned + recommended (fallback accordingly)
+        articles[f"article_current_learned_{i}"] = {
+            "content": content,
+            "interests": selected
+        }
+
+    # 2 articles with current + learned + recommended
     for i in range(1, 3):
         selected = [random.choice(current)]
         if learned:
             selected.append(random.choice(learned))
         if recommended:
             selected.append(random.choice(recommended))
+
         prompt = generate_article_prompt(selected)
-        articles[f"article_all_{i}"] = model.generate_content(prompt).text.strip()
+        content = model.generate_content(prompt).text.strip()
+
+        articles[f"article_all_{i}"] = {
+            "content": content,
+            "interests": selected
+        }
 
     return articles
+

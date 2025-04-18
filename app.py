@@ -39,6 +39,49 @@ def handle_generate():
             "status": "error",
             "message": str(e)
         }), 500
+    
+@app.route('/read', methods=['POST'])
+def handle_read():
+    try:
+        data = request.json
+        user_id = data.get('user_id')
+        read_interests = set(data.get('read_interests', []))
+
+        if not user_id or not read_interests:
+            return jsonify({"status": "error", "message": "Missing user_id or read_interests"}), 400
+
+        user_data = config.get_user_data(user_id)
+        if not user_data:
+            return jsonify({"status": "error", "message": "User not found"}), 404
+
+        current = set(user_data.get("current_interests", []) or [])
+        learned = set(user_data.get("learned_interests", []) or [])
+
+        combined = current.union(learned)
+        matched = list(read_interests.intersection(combined))
+
+        if not matched:
+            return jsonify({"status": "noop", "message": "No overlapping interest found"})
+
+        updated_learned = learned.union(matched)
+
+        config.supabase.table("users").update({
+            "learned_interests": list(updated_learned)
+        }).eq("user_id", user_id).execute()
+
+        return jsonify({
+            "status": "success",
+            "added": matched,
+            "learned_interests": list(updated_learned)
+        })
+
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": str(e)
+        }), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+

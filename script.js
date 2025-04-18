@@ -331,39 +331,56 @@ async function submitSubtopics() {
       alert("Something went wrong: " + e.message);
   }
 }
+
 async function fetchGeneratedArticles(userId) {
   const loadingBar = document.getElementById("loading-bar");
   loadingBar.classList.remove("hidden");
+
   try {
-    
-      const response = await fetch('http://localhost:5000/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ user_id: userId })
-      });
+    const response = await fetch('http://localhost:5000/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: userId })
+    });
 
-      if (!response.ok) {
-          throw new Error(`Failed to fetch articles: ${response.statusText}`);
-      }
+    if (!response.ok) {
+      throw new Error(`Failed to fetch articles: ${response.statusText}`);
+    }
 
-      const data = await response.json();
-      console.log("🔍 API Response:", data);
+    const data = await response.json();
+    console.log("🔍 API Response:", data);
 
-      if (!data.articles || Object.keys(data.articles).length === 0) {
-          throw new Error("No articles found.");
-      }
+    if (!data.articles || Object.keys(data.articles).length === 0) {
+      throw new Error("No articles found.");
+    }
 
-      localStorage.setItem("generated_articles", JSON.stringify(data.articles)); // Store in localStorage
-      showArticles(data.articles);
+    const articles = data.articles;
+    const articlesArray = Object.entries(articles);
+
+    articlesArray.forEach(([key, value], index) => {
+      const content = value.content;
+      const interests = value.interests || [];
+
+      // Save content and interests per article
+      localStorage.setItem(`article_${index}`, content);
+      localStorage.setItem(`article_interests_${index}`, JSON.stringify(interests));
+    });
+
+    showArticles(
+      Object.fromEntries(
+        articlesArray.map(([key, value], index) => [index, value.content])
+      )
+    );
 
   } catch (error) {
-      console.error("🚨 Error fetching articles:", error);
-      alert(error.message);
+    console.error("🚨 Error fetching articles:", error);
+    alert(error.message);
   } finally {
-    loadingBar.classList.add("hidden"); // Hide the loading bar no matter what
+    loadingBar.classList.add("hidden");
   }
-
 }
+
+
 function formatArticle(articleContent) {
   const articleContainer = document.getElementById("article-content");
 
