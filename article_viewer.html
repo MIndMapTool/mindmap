@@ -29,13 +29,9 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  
   <script type="module">
-    import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
-    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  </script>
-  
-  <script>
+      import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
+      const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     function formatArticle(articleContent) {
       const articleContainer = document.getElementById("article-content");
