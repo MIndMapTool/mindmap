@@ -1,13 +1,18 @@
 import google.generativeai as genai
+import supabase
 from supabase import create_client, Client
 import ast
 import random
 import json
 import re
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 # --- Your API Keys ---
-SUPABASE_URL = "https://arnvjwxafssjqewtgoaf.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFybnZqd3hhZnNzanFld3Rnb2FmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NDE5NDU1MywiZXhwIjoyMDU5NzcwNTUzfQ.5miLC8aFSxAp3qT7wm1mieWuDgTuocSalWC1AGX0hmQ"
-GEMINI_API_KEY = "AIzaSyBy6vEedbHq1SgzuINB1tQ3AtENedYH93E"
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # --- Supabase Client ---
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)

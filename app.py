@@ -2,12 +2,13 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import config
 from supabase import create_client, Client
+import os
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS if you're making requests from the frontend
 
-SUPABASE_URL = "https://arnvjwxafssjqewtgoaf.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFybnZqd3hhZnNzanFld3Rnb2FmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NDE5NDU1MywiZXhwIjoyMDU5NzcwNTUzfQ.5miLC8aFSxAp3qT7wm1mieWuDgTuocSalWC1AGX0hmQ"  # Replace with your actual key
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
