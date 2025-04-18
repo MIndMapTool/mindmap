@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Article Viewer</title>
+  <title>MindMap Article Viewer</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
     .logo {
@@ -22,90 +22,16 @@
   <div class="container mx-auto p-6">
     <div id="article-content" class="bg-white p-6 rounded-lg shadow"></div>
 
-    <!-- ✅ Read Button -->
-    <button id="read-button" class="bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded shadow mt-6 block mx-auto">
+    <button id="read-button"
+      class="bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded shadow mt-6 block mx-auto">
       ✅ Mark as Read
     </button>
   </div>
 
+  <!-- Supabase client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script type="module">
-      import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
-      const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    function formatArticle(articleContent) {
-      const articleContainer = document.getElementById("article-content");
-      articleContainer.innerHTML = "";
-
-      const match = articleContent.match(/##\s*([^:]+):/);
-      const articleTitle = match ? match[1].trim() : "Untitled Article";
-
-      const titleElement = document.createElement("h1");
-      titleElement.className = "text-3xl font-bold text-gray-800 mb-4";
-      titleElement.textContent = articleTitle;
-      articleContainer.appendChild(titleElement);
-
-      const contentWithoutTitle = articleContent.replace(/##\s*([^:]+):/, "").trim();
-      const paragraphs = contentWithoutTitle.split("\n").filter(line => line.trim() !== "");
-
-      paragraphs.forEach(paragraph => {
-        const formatted = paragraph.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-        const p = document.createElement("p");
-        p.className = "text-gray-700 text-base mb-4 leading-relaxed";
-        p.innerHTML = formatted;
-        articleContainer.appendChild(p);
-      });
-    }
-
-    window.onload = async () => {
-      const articleId = new URLSearchParams(window.location.search).get("id");
-      const articleContent = localStorage.getItem(`article_${articleId}`);
-
-      if (articleContent) {
-        formatArticle(articleContent);
-      } else {
-        document.getElementById("article-content").innerHTML = `
-          <p class="text-red-500">Article not found. Please go back and try again.</p>
-        `;
-      }
-
-      document.getElementById("read-button").onclick = async () => {
-        console.log("🟢 Read button clicked");
-
-        const interests = JSON.parse(localStorage.getItem(`article_interests_${articleId}`));
-        console.log("📦 Interests used:", interests);
-
-        const { data: { user }, error } = await client.auth.getUser();
-        if (error || !user?.id) {
-          alert("⚠️ You must be logged in to mark this article as read.");
-          return;
-        }
-
-        try {
-          const res = await fetch("http://localhost:5000/read", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              user_id: user.id,
-              read_interests: interests
-            })
-          });
-
-          const result = await res.json();
-          console.log("🧠 Backend response:", result);
-
-          if (result.status === "success") {
-            alert("✅ Article marked as read!");
-          } else {
-            alert(`⚠️ Not learned: ${result.message || 'Unknown reason'}`);
-          }
-
-        } catch (err) {
-          console.error("❌ Read API error:", err);
-          alert("Error contacting server.");
-        }
-      };
-    };
-  </script>
+  <!-- Main viewer logic -->
+  <script type="module" src="./viewer.js"></script>
 </body>
 </html>
