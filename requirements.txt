@@ -1,2 +1,3 @@
 google-generativeai
 supabase
+flask-cors
