@@ -1,5 +1,5 @@
 // viewer.js
-import { client } from './supabaseclient.js';
+// import { client } from './supabaseclient.js';
 import { restoreSession, getCurrentUser } from './auth.js';
 
 await restoreSession();
