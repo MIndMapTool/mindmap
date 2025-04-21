@@ -95,13 +95,23 @@ def generate_article_prompt(interests):
 
     if not additional:
         return f"""Write a detailed article titled about "{main_focus}".
-        Make sure it is in-depth, educational, and explores key ideas, subfields, applications, and recent developments."""
+    Make sure it is in-depth, educational, and explores key ideas, subfields, applications, and recent developments.
+    Make it insightful, and ensure that all topics are cohesively interlinked and clearly explained.
+    Include a distinct, relevant title and rich educational content. Don't make it strictly academic; it should be engaging and informative.
+    Use a friendly tone, and avoid jargon. Aim for a balance between depth and accessibility.It should read like a story with a clear beginning, middle, and end.
+    Use examples and analogies to clarify complex concepts. It should read like a kurzgesagt video script but be more detailed and educational and be as
+    informative as a medium-style article.
+    Avoid using the word "article" in the text."""
     
     return f"""
     Write a detailed article that focuses on "{main_focus}" and explores how it connects with the topics: {additional}.
     Explain the relationships, overlapping ideas, and interdisciplinary implications.
     Make it insightful, and ensure that all topics are cohesively interlinked and clearly explained.
-    Include a distinct, relevant title and rich educational content.
+    Include a distinct, relevant title and rich educational content. Don't make it strictly academic; it should be engaging and informative.
+    Use a friendly tone, and avoid jargon. Aim for a balance between depth and accessibility.It should read like a story with a clear beginning, middle, and end.
+    Use examples and analogies to clarify complex concepts. It should read like a kurzgesagt video script but be more detailed and educational and be as
+    informative as a medium-style article.
+    Avoid using the word "article" in the text.
     """
 
 def generate_articles(user_id):
