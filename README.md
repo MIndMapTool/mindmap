@@ -1,4 +1,3 @@
-hi
 
 # 🧠 MindMap – AI-Powered Knowledge Tool
 
