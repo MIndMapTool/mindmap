@@ -1,2 +1,54 @@
+# Python compiled files and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# PyInstaller
+*.spec
+
+# Packaging
+build/
+dist/
+*.egg-info/
+
+# Coverage and test outputs
+htmlcov/
+.coverage
+.cache
+.tox/
+nox/
+
+# Logs
+*.log
+
+# IDE/editor files
+.vscode/
+.idea/
+*.sublime-*
+
+# Node-related (if using any frontend)
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+pnpm-lock.yaml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment and config
 .env
+.env.*
 config.js
+config.local.js
